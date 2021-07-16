@@ -12,8 +12,8 @@ class CrowdConnectedLocationProvider: ILIndoorLocationProvider {
 
     private var isRunning = false
 
-    override init() {
-        super.init()
+    override func start() {
+        isRunning = true
 
         CrowdConnected.shared.start(appKey: "YOUR_APP_KEY", token: "YOUR_TOKEN", secret: "YOUR_SECRET") { deviceId, error in
             guard error == nil else {
@@ -23,13 +23,11 @@ class CrowdConnectedLocationProvider: ILIndoorLocationProvider {
         }
         CrowdConnected.shared.delegate = self
     }
-
-    override func start() {
-        isRunning = true
-    }
     
     override func stop() {
         isRunning = false
+
+        CrowdConnected.shared.stop()
     }
     
     override func isStarted() -> Bool {
